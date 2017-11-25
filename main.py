@@ -5,6 +5,7 @@ import numpy as np
 from sklearn import svm
 import time
 from svmTrainer import SVM_fit
+from logisticTrainer import logisticRegression
 
 datafile = "data.csv"
 
@@ -52,4 +53,8 @@ if __name__ == "__main__":
         cParam = float(input("c Parameter > "))
 
         clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
+
+    if algorithm == 2:
+
+        model = logisticRegression(npData, newTarget)
     
