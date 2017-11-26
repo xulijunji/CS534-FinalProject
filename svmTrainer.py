@@ -7,13 +7,19 @@ def SVM_fit(data, target, c = 1, _kernel='linear', _degree=1, _coef0=0):
     x = np.delete(data, 1, 1)
     #print("len: ", len(x[0]))
 
-    x = np.delete(x, len(x[0]) - 1, 1)
-    print(x)
+    print(type(x[0][3]))
+
+    #x = np.delete(x, len(x[0]) - 1, 1)
+    #print(x)
+
+    data = data[:,2:]
+    data[:,-1] = 1
+    data = data.astype(float)
 
     clf = svm.SVC(kernel = _kernel, degree = _degree, C = c, coef0 = _coef0)
 
     startTime = time.time()
-    clf.fit(x, target)
+    clf.fit(data, target)
     endTime = time.time()
 
     print("The SVM ran for %s seconds: " % (endTime - startTime))
