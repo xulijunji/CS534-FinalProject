@@ -8,7 +8,7 @@ def SVM_fit(data, target, c = 1, _kernel='linear', _degree=1, _coef0=0):
     #print("len: ", len(x[0]))
 
     x = np.delete(x, len(x[0]) - 1, 1)
-    #print(target)
+    print(x)
 
     clf = svm.SVC(kernel = _kernel, degree = _degree, C = c, coef0 = _coef0)
 
