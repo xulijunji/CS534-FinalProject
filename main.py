@@ -5,6 +5,7 @@ import numpy as np
 from sklearn import svm
 import time
 from svmTrainer import SVM_fit
+from logisticTrainer import logisticRegression
 
 datafile = "data.csv"
 
@@ -30,18 +31,13 @@ if __name__ == "__main__":
 
     algorithm = int(input("Select what you want to do with the dataset > "))
 
-
     if algorithm == 0:
         print(0)
         #insert your algorithm here and pass data as argument
         
     if algorithm == 1:
-        #insert your algorithm here and pass data as argument
 
         train_file = "data.csv"
-
-        feature2index = DataProcessor.create_feature_map(train_file)
-        train_data, train_target = DataProcessor.map_data(train_file, feature2index)
 
         _kernel = int(input("Kernel [1: linear | 2: quadratic] > "))
         kernel = 'linear'
@@ -55,5 +51,9 @@ if __name__ == "__main__":
 
         cParam = float(input("c Parameter > "))
 
-        clf = SVM_fit(train_data, train_target, cParam, kernel, degree, coef0)
-    
+        clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
+
+
+    if algorithm == 2:
+
+        model = logisticRegression(npData, newTarget)
