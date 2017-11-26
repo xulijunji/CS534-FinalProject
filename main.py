@@ -27,10 +27,9 @@ if __name__ == "__main__":
 
         newTarget.append(y)
     
-    #print(newTarget)
-
 
     algorithm = int(input("Select what you want to do with the dataset > "))
+
 
     if algorithm == 0:
         print(0)
@@ -38,7 +37,12 @@ if __name__ == "__main__":
         
     if algorithm == 1:
         #insert your algorithm here and pass data as argument
-        
+
+        train_file = "data.csv"
+
+        feature2index = DataProcessor.create_feature_map(train_file)
+        train_data, train_target = DataProcessor.map_data(train_file, feature2index)
+
         _kernel = int(input("Kernel [1: linear | 2: quadratic] > "))
         kernel = 'linear'
         degree = 1
@@ -51,5 +55,5 @@ if __name__ == "__main__":
 
         cParam = float(input("c Parameter > "))
 
-        clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
+        clf = SVM_fit(train_data, train_target, cParam, kernel, degree, coef0)
     
