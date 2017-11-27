@@ -6,6 +6,7 @@ from sklearn import svm
 import time
 from svmTrainer import SVM_fit
 from logisticTrainer import logisticRegression
+import matplotlib.pyplot as plt
 
 datafile = "data.csv"
 
@@ -38,20 +39,35 @@ if __name__ == "__main__":
     if algorithm == 1:
 
         train_file = "data.csv"
+	cArr = []
+	supportVectors = []
 
-        _kernel = int(input("Kernel [1: linear | 2: quadratic] > "))
-        kernel = 'linear'
-        degree = 1
-        coef0 = 0
+        while(1):
 
-        if _kernel == 2:
-            kernel = 'poly'
-            degree = 2
-            coef0 = 1
+	        _kernel = int(input("Kernel [1: linear | 2: quadratic] > "))
+        	kernel = 'linear'
+	        degree = 1
+        	coef0 = 0
 
-        cParam = float(input("c Parameter > "))
+	        if _kernel == 2:
+        	    kernel = 'poly'
+	            degree = 2
+        	    coef0 = 1
 
-        clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
+	        cParam = float(input("c Parameter > "))
+
+        	clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
+
+		cArr.append(cParam)
+		supportVectors.append(len(clf.support_vectors_))
+
+	plt.plot(cArr, supportVectors, label='C vs Support Vectors')
+        #plt.plot(epochs, devArr, label='Dev Error')
+       	plt.title('Error Rates for Unaveraged and Averaged Perceptron')
+        plt.legend()
+	plt.xlabel('C')
+        plt.ylabel('Support Vectors')
+	plt.show()
 
 
     if algorithm == 2:
