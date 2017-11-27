@@ -32,14 +32,16 @@ def SVM_fit(data, target, c = 1, _kernel='linear', _degree=1, _coef0=0):
     for i in range(0, len(data)-10, 10):
 
 	    startTime = time.time()
+            currTarget = np.concatenate((target[:i], target[i+10:]), axis = 0).tolist()
 	    clf.fit(np.concatenate((data[:i], data[i+10:]), axis = 0), np.concatenate((target[:i], target[i+10:]), axis = 0))
 	    endTime = time.time()
             l = devPredictor(clf, data[i:i+10])
             npl = np.asarray(l)
             npl = npl.astype(int)
             #print("devSet :", i , i+10, "predicted: ", l )
-            print(type(npl), npl)
-            errors += np.sum(npl, np.concatenate((target[:i], target[i+10:]), axis = 0))
+            #print(type(npl), npl)
+            errors += sum(t1!=t2 for (t1,t2) in zip(l, currTarget))
+            print(errors)
 
     print("Dev Error rate:", errors / len(data) * 100)
 
