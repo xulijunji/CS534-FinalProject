@@ -39,35 +39,35 @@ if __name__ == "__main__":
     if algorithm == 1:
 
         train_file = "data.csv"
-	cArr = []
-	supportVectors = []
+        cArr = []
+        supportVectors = []
 
         while(1):
 
-	        _kernel = int(input("Kernel [1: linear | 2: quadratic] > "))
-        	kernel = 'linear'
-	        degree = 1
-        	coef0 = 0
+               _kernel = int(input("Kernel [1: linear | 2: quadratic] > "))
+       	       kernel = 'linear'
+               degree = 1
+               coef0 = 0
 
-	        if _kernel == 2:
-        	    kernel = 'poly'
-	            degree = 2
-        	    coef0 = 1
+               if _kernel == 2:
+                    kernel = 'poly'
+                    degree = 2
+                    coef0 = 1
 
-	        cParam = float(input("c Parameter > "))
+               cParam = float(input("c Parameter > "))
 
-        	clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
+               clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
 
-		cArr.append(cParam)
-		supportVectors.append(len(clf.support_vectors_))
+               cArr.append(cParam)
+               supportVectors.append(len(clf.support_vectors_))
 
-	plt.plot(cArr, supportVectors, label='C vs Support Vectors')
+        plt.plot(cArr, supportVectors, label='C vs Support Vectors')
         #plt.plot(epochs, devArr, label='Dev Error')
-       	plt.title('Error Rates for Unaveraged and Averaged Perceptron')
+        plt.title('Error Rates for Unaveraged and Averaged Perceptron')
         plt.legend()
-	plt.xlabel('C')
+        plt.xlabel('C')
         plt.ylabel('Support Vectors')
-	plt.show()
+        plt.show()
 
 
     if algorithm == 2:
