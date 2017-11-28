@@ -63,6 +63,25 @@ if __name__ == "__main__":
 
         plt.plot(cArr, supportVectors, label='C vs Support Vectors')
         #plt.plot(epochs, devArr, label='Dev Error')
+            _kernel = int(input("Kernel [1: linear | 2: quadratic] > "))
+            kernel = 'linear'
+            degree = 1
+            coef0 = 0
+
+            if _kernel == 2:
+                kernel = 'poly'
+                degree = 2
+                coef0 = 1
+
+            cParam = float(input("c Parameter > "))
+
+            clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
+
+        cArr.append(cParam)
+        supportVectors.append(len(clf.support_vectors_))
+
+        plt.plot(cArr, supportVectors, label='C vs Support Vectors')
+            #plt.plot(epochs, devArr, label='Dev Error')
         plt.title('Error Rates for Unaveraged and Averaged Perceptron')
         plt.legend()
         plt.xlabel('C')
@@ -72,4 +91,4 @@ if __name__ == "__main__":
 
     if algorithm == 2:
 
-        model = logisticRegression(npData, newTarget)
+        model, prediction = logisticRegression(npData, newTarget)

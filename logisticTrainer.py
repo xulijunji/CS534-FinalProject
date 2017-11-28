@@ -1,6 +1,7 @@
 import numpy as np
 import time
 from math import exp
+from sklearn.model_selection import KFold
 
 def logisticRegression(data, rawTarget):
 
@@ -20,23 +21,50 @@ def logisticRegression(data, rawTarget):
 
             target.append(1)
 
-    totalEpoch = 5000
-    weight = np.zeros(len(data[1,:]))
-    j = 0
+    target = np.asarray(target)
+    k = 10
+    kf = KFold(n_splits=k)
+    n = 1
+    scoreList = []
+    cacheWeight = np.zeros(len(data[1,:]))
 
-    for epoch in range(totalEpoch):
+    for train_index, test_index in kf.split(data):
 
-        for i in range(len(data)):
+        print "Beginning cross-fold validation {}.".format(str(n))
 
-            j += 1
-            alpha = 0.3/j
-            pred = logisticFunction(weight, data[i,:])
+        trainData = data[train_index]
+        trainTarget = target[train_index]
+        devData = data[test_index]
+        devTarget = target[test_index]
 
-            weight = weight + alpha*(target[i] - pred)*data[i,:]
+        totalEpoch = 500
+        weight = np.zeros(len(data[1,:]))
+        j = 0
 
-        test(weight, data, target)
+        for epoch in range(totalEpoch):
 
-    return weight
+            for i in range(len(data)):
+
+                j += 1
+                alpha = 0.1/j
+                pred = logisticFunction(weight, data[i,:])
+
+                weight = weight + alpha*(target[i] - pred)*data[i,:]
+
+        _ = test(weight, trainData, trainTarget, 'training')
+        score = test(weight, devData, devTarget, 'dev')
+        scoreList.append(score)
+        cacheWeight += weight
+        n += 1
+
+    scoreList = np.asarray(scoreList)
+    print "Average Error Rate: {:.2%} (+/- {:.2%})".format(scoreList.mean(), scoreList.std()*1.96)
+    _ = test(cacheWeight/k, data, target, 'training')
+    prediction = predict(cacheWeight/k, data, target)
+
+    print(cacheWeight/k)
+
+    return cacheWeight/k, prediction
 
 def logisticFunction(weight, data):
 
@@ -46,7 +74,7 @@ def logisticFunction(weight, data):
 
     return value
 
-def test(weight, data, target):
+def test(weight, data, target, trainType):
 
     errorCounter = 0.0
 
@@ -58,7 +86,20 @@ def test(weight, data, target):
 
             errorCounter += 1
 
-    print "The error percent is {0:.2%}".format(errorCounter/len(data))
+    print "The {} error rate is {:.2%}".format(trainType, errorCounter/len(data))
+
+    return errorCounter/len(data)
+
+def predict(weight, data, target):
+
+    predictionList = []
+
+    for i in range(len(data)):
+
+        prediction = logisticFunction(weight, data[i,:])
+        predictionList.append(prediction)
+
+    return predictionList
 
 def standardizeData(data):
 
