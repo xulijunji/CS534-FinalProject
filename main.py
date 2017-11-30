@@ -6,12 +6,15 @@ from sklearn import svm
 import time
 from svmTrainer import knn_fit
 from svmTrainer import SVM_fit
+from svmTrainer import SVM_rbf
 from svmTrainer import SVM_fit1
 from svmTrainer import SVM_fit10
+from svmTrainer import SVM_quadratic
 from logisticTrainer import logisticRegression
 import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score
 from gradientbooster import gradient_booster
+from naiveBayes import naiveBayes
 
 datafile = "data.csv"
 
@@ -49,7 +52,10 @@ if __name__ == "__main__":
 
         #knn_fit(npData, newTarget)
 
-	m = gradient_booster(npData, newTarget)
+	#clf = SVM_rbf(npData, newTarget)
+	#m = gradient_booster(npData, newTarget)
+
+	gnb = naiveBayes(npData, newTarget)
 
         while(1):
 
@@ -64,6 +70,8 @@ if __name__ == "__main__":
                     coef0 = 1
 
                cParam = float(input("c Parameter > "))
+
+	       #clf = SVM_quadratic(npData, newTarget, cParam, kernel, degree, coef0)
 
                #clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
 
