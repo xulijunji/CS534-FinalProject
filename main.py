@@ -51,7 +51,7 @@ if __name__ == "__main__":
         cArr = []
         supportVectors = []
 
-        #knn_fit(npData, newTarget)
+        #	knn_fit(npData, newTarget)
 
 	#clf = SVM_rbf(npData, newTarget)
 	m = gradient_booster(npData, newTarget)
