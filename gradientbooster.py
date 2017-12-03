@@ -59,6 +59,8 @@ def gradient_booster(data, target):
 	model.fit(x_train_N, y_train)
 	test_error = model.score(x_test_N, y_test)
 	print("test_Error: ", (1-test_error)*100)
+	print("test score: ", test_error)
+	#model.score()
 
 	y_pred = model.predict(x_test_N)
 
@@ -70,6 +72,12 @@ def gradient_booster(data, target):
 
 	print("tn: ", tn, "fp: ", fp, "fn: ", fn, "tp: ", tp)
 
+	ac = accuracy_score(y_test,clf_rf.predict(x_test))
+	print('Accuracy is: ',ac)
+	cm = confusion_matrix(y_test,clf_rf.predict(x_test))
+	sns.heatmap(cm,annot=True,fmt="d")
+
+	plt.show()
 	model= GradientBoostingClassifier(n_estimators=150, learning_rate=0.5, max_depth=1, random_state=0)
 	model.fit(data, target)
 	train_error = model.score(data, target)
@@ -78,8 +86,8 @@ def gradient_booster(data, target):
     	#devArr.append(100-scores.mean())
 	print("Gradient Booster Accuracy: %0.2f (+/- %0.2f) for n_estimators " % (scores.mean(), scores.std() * 2))	
 
-        modelgnb = GradientBoostingClassifier(n_estimators=200, learning_rate=0.5, max_depth=1, random_state=0)
-        modelgnb.fit(data[:501], target[:501])
+	modelgnb = GradientBoostingClassifier(n_estimators=200, learning_rate=0.5, max_depth=1, random_state=0)
+	modelgnb.fit(data[:501], target[:501])
 
 	y_pred = modelgnb.predict(data[501:])
 
