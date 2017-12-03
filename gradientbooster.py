@@ -31,6 +31,17 @@ def gradient_booster(data, target):
 	#plt.plot(range(1, len(rfecv.grid_scores_) + 1), rfecv.grid_scores_)
 	#plt.show()
 
+	#data_norm = (data - data.mean()) / (data.std()) 
+	model= GradientBoostingClassifier(n_estimators=150, learning_rate=0.5, max_depth=1, random_state=0)
+	#model.fit(data_norm, target)
+	#train_error = model.score(data, target)
+	#print("train_Error: ", train_error)
+	scores = cross_val_score(model, data[:, 0:5], target, cv=10)
+    	#devArr.append(100-scores.mean())
+	print("Gradient Booster Accuracy for first 5 features: %0.2f (+/- %0.2f) for n_estimators " % (scores.mean(), scores.std() * 2))	
+
+	
+
 	#for i in range(150, 400, 50):
 
 	x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.1, random_state=0)
