@@ -16,7 +16,7 @@ def devPredictor(clf, devSet):
 
     return p
 
-def SVM_quadratic(data, target, c = 1000, _kernel='poly', _degree=2, _coef0=0):
+def SVM_quadratic(data, target, c = 1000, _kernel='poly', _degree=2, _coef0=1):
 
 	data = data[:,2:]
 	data[:,-1] = 1
@@ -25,7 +25,7 @@ def SVM_quadratic(data, target, c = 1000, _kernel='poly', _degree=2, _coef0=0):
 	clf = svm.SVC(kernel = _kernel, degree = _degree, C = c, coef0 = _coef0, probability=True)
 
 	scores = cross_val_score(clf, data, target, cv=10)
-	print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+	print("Accuracy for SVM_quadtratic: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 def SVM_rbf(data, target):
 
@@ -33,9 +33,7 @@ def SVM_rbf(data, target):
 	data[:,-1] = 1
 	data = data.astype(float)
 
-	
-
-    	clf=svm.SVC(C=1000,gamma=0.00001,kernel='rbf')
+    	clf=svm.SVC(C=10000,gamma=0.025,kernel='rbf')
 	#clf.fit(data, target)
 
 	#train_error = clf.score(data, target)
@@ -43,7 +41,7 @@ def SVM_rbf(data, target):
 
 	scores = cross_val_score(clf, data, target, cv=10)
 	#devArr.append(100-scores.mean())
-	print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
+	print("Accuracy for SVM rbf: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
 
 def knn_fit(data, target):
 
@@ -51,14 +49,20 @@ def knn_fit(data, target):
     data[:,-1] = 1
     data = data.astype(float)
 
-    for i in range(1, 70):
-	    neigh = KNeighborsClassifier(n_neighbors=i)
-	    neigh.fit(data, target)
-    
-	    train_error = neigh.score(data, target)
-	    print("train_error: ", train_error)
-    	    print(neigh.predict_proba(data))
+    for i in range(1, 57, 5):
 
+	    neigh = KNeighborsClassifier(n_neighbors=i)
+	    #neigh.fit(data, target)
+    
+	    #train_error = neigh.score(data, target)
+	    #print("train_error: ", train_error)
+    	    #print(neigh.predict_proba(data))
+
+            scores = cross_val_score(neigh, data, target, cv=30)
+	    #devArr.append(100-scores.mean())
+	    print("i: %d", i)
+	    print()
+	    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
 
     #kf = KFold(n_splits=2)
 
@@ -199,10 +203,11 @@ def SVM_fit(data, target, c = 1, _kernel='linear', _degree=1, _coef0=0):
         #currTarget = np.concatenate((target[:i], target[i+10:]), axis = 0).tolist()
         #clf.fit(np.concatenate((data[:i], data[i+10:]), axis = 0), np.concatenate((target[:i], target[i+10:]), axis = 0))
 
-        clf.fit(data, target)
+	data_norm = (data - data.mean()) / (data.std()) 
+        clf.fit(data_norm, target)
         endTime = time.time()
 
-        train_error = clf.score(data, target)
+        train_error = clf.score(data_norm, target)
         trainArr.append((1-train_error) * 100)
         #print("For C: ", v)
         #print("Train Error: ", (1-train_error) * 100)
@@ -210,15 +215,15 @@ def SVM_fit(data, target, c = 1, _kernel='linear', _degree=1, _coef0=0):
         #print("The SVM ran for %s seconds: " % (endTime - startTime))
         #print("Number of Support Vectors: ", str(len(clf.support_vectors_)))
 
-        scores = cross_val_score(clf, data, target, cv=10)
+        scores = cross_val_score(clf, data_norm, target, cv=10)
         devArr.append((1-scores.mean())*100)
-        #print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
+        print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
         #print("Dev Error rate:", devArr[i])
 
-        #weightVector = clf.coef_
-        #max_index = weightVector.argsort()[-3:][::-1]
+        weightVector = clf.coef_
+        max_index = weightVector.argsort()[-3:][::-1]
 
-        #print("max weights: ", max_index)
+        print("max weights: ", max_index)
         #print()
 
     #print("predicted: ", clf.predict(data))
