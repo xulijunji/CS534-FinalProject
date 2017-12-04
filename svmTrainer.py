@@ -29,19 +29,19 @@ def SVM_quadratic(data, target, c = 1000, _kernel='poly', _degree=2, _coef0=1):
 
 def SVM_rbf(data, target):
 
-	data = data[:,2:]
-	data[:,-1] = 1
-	data = data.astype(float)
+        data = data[:,2:]
+        data[:,-1] = 1
+        data = data.astype(float)
 
-    	clf=svm.SVC(C=10000,gamma=0.025,kernel='rbf')
+        clf=svm.SVC(C=10000,gamma=0.025,kernel='rbf')
 	#clf.fit(data, target)
 
 	#train_error = clf.score(data, target)
 	#trainArr.append((1-train_error) * 100)
 
-	scores = cross_val_score(clf, data, target, cv=10)
+        scores = cross_val_score(clf, data, target, cv=10)
 	#devArr.append(100-scores.mean())
-	print("Accuracy for SVM rbf: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
+        print("Accuracy for SVM rbf: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
 
 def knn_fit(data, target):
 
@@ -51,7 +51,7 @@ def knn_fit(data, target):
 
     for i in range(1, 57, 5):
 
-	    neigh = KNeighborsClassifier(n_neighbors=i)
+            neigh = KNeighborsClassifier(n_neighbors=i)
 	    #neigh.fit(data, target)
     
 	    #train_error = neigh.score(data, target)
@@ -60,9 +60,9 @@ def knn_fit(data, target):
 
             scores = cross_val_score(neigh, data, target, cv=30)
 	    #devArr.append(100-scores.mean())
-	    print("i: %d", i)
-	    print()
-	    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
+            print("i: %d", i)
+            print()
+            print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
 
     #kf = KFold(n_splits=2)
 
@@ -203,7 +203,7 @@ def SVM_fit(data, target, c = 1, _kernel='linear', _degree=1, _coef0=0):
         #currTarget = np.concatenate((target[:i], target[i+10:]), axis = 0).tolist()
         #clf.fit(np.concatenate((data[:i], data[i+10:]), axis = 0), np.concatenate((target[:i], target[i+10:]), axis = 0))
 
-	data_norm = (data - data.mean()) / (data.std()) 
+        data_norm = (data - data.mean()) / (data.std()) 
         clf.fit(data_norm, target)
         endTime = time.time()
 
@@ -241,37 +241,37 @@ def SVM_fit(data, target, c = 1, _kernel='linear', _degree=1, _coef0=0):
 
 def SVM_fit2(data, target):
 
-	data = data[:,2:]
-	data[:,-1] = 1
-	data = data.astype(float)
-    	svc=SVC(C=100,gamma=0.001,kernel='rbf')
-	svc.fit(data, target)
+        data = data[:,2:]
+        data[:,-1] = 1
+        data = data.astype(float)
+        svc=SVC(C=100,gamma=0.001,kernel='rbf')
+        svc.fit(data, target)
 
 	# for display purposes, we fit the model on the first two components i.e. PC1, and PC2
-	svc.fit(data[:,0:2], target)
+        svc.fit(data[:,0:2], target)
 
 	# Plotting the decision boundary for all data (both train and test)
 	# Create color maps
 	
-	cmap_light = ListedColormap(['#AAFFAA','#FFAAAA'])
-	cmap_bold = ListedColormap(['#0000FF','#FF0000'])
+        cmap_light = ListedColormap(['#AAFFAA','#FFAAAA'])
+        cmap_bold = ListedColormap(['#0000FF','#FF0000'])
 
 	# creating a meshgrid
-	x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-	y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-	h=0.05
-	xx, yy = np.meshgrid(np.arange(x_min, x_max, h),np.arange(y_min, y_max, h))
-	xy_mesh=np.c_[xx.ravel(), yy.ravel()]
-	Z = svc.predict(xy_mesh)
-	Z = Z.reshape(xx.shape)
+        x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+        y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+        h=0.05
+        xx, yy = np.meshgrid(np.arange(x_min, x_max, h),np.arange(y_min, y_max, h))
+        xy_mesh=np.c_[xx.ravel(), yy.ravel()]
+        Z = svc.predict(xy_mesh)
+        Z = Z.reshape(xx.shape)
 
 	#plotting data on decision boundary
 	
-	plt.figure()
-	plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
-	plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold)
-	plt.xlim(xx.min(), xx.max())
-	plt.ylim(yy.min(), yy.max())
-	plt.xlabel('PC1');plt.ylabel('PC2')
-	plt.title('SVC')
-	plt.show()
+        plt.figure()
+        plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
+        plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold)
+        plt.xlim(xx.min(), xx.max())
+        plt.ylim(yy.min(), yy.max())
+        plt.xlabel('PC1');plt.ylabel('PC2')
+        plt.title('SVC')
+        plt.show()
