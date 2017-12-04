@@ -14,6 +14,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score,confusion_matrix
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
 
 def gradient_booster(data, target):
 
@@ -101,6 +103,12 @@ def gradient_booster(data, target):
 	
 	#Predict Output
 	#predicted= model.predict(x_test)
+
+def kbestfeatures():
+
+	select_feature = SelectKBest(chi2, k=5).fit(x_train, y_train)
+	print('Score list:', select_feature.scores_)
+	print('Feature list:', x_train.columns)
 
 def recfeatureelimination(data, target):
 
