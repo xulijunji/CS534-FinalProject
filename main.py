@@ -124,7 +124,6 @@ if __name__ == "__main__":
 
 
     if algorithm == 2:
-<<<<<<< HEAD
        knn_fit(npData, newTarget)
 
     if algorithm == 3:
@@ -137,8 +136,6 @@ if __name__ == "__main__":
        kbest = kbestfeatures(npData, newTarget)
 
     if algorithm == 6:
-=======
         # Run on Python 2
->>>>>>> 1163723870fab2cd2d65d626e547604686d82f5e
 
         model, prediction = logisticRegression(npData, newTarget)
