@@ -82,10 +82,10 @@ if __name__ == "__main__":
 	#clf = SVM_rbf(npData, newTarget)
         m = gradient_booster(npData, newTarget)
 
-        #kbest = kbestfeatures(npData, newTarget)
+        kbest = kbestfeatures(npData, newTarget)
 
-	#gnb = naiveBayes(npData, newTarget)
-	#re = recfeatureelimination(npData, newTarget)
+        #gnb = naiveBayes(npData, newTarget)
+        #re = recfeatureelimination(npData, newTarget)
 
         while(1):
 
@@ -94,18 +94,17 @@ if __name__ == "__main__":
                degree = 1
                coef0 = 0
 
+               cParam = float(input("c Parameter > "))
+
                if _kernel == 2:
                     kernel = 'poly'
                     degree = 2
                     coef0 = 1
 
-               cParam = float(input("c Parameter > "))
+                    clf = SVM_quadratic(npData, newTarget, cParam, kernel, degree, coef0)
 
-	       #clf = SVM_quadratic(npData, newTarget, cParam, kernel, degree, coef0)
-
-               #clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
-
-	       
+               else:
+                    clf = SVM_fit(npData, newTarget, cParam, kernel, degree, coef0)
 
                #clf = svm.SVC(kernel = 'rbf', C = 100, gamma = '0.25', probability=True)
 	       #scores = cross_val_score(clf, data, newTarget, cv=10)
