@@ -1,4 +1,5 @@
 import numpy as np
+import seaborn as sns
 from sklearn import svm
 import time
 from sklearn import metrics
@@ -17,11 +18,36 @@ from sklearn.metrics import confusion_matrix
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
 
+
 def gradient_booster(data, target):
 
 	data = data[:,2:]
 	data[:,-1] = 1
 	data = data.astype(float)
+
+	x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=42)
+	select_feature = SelectKBest(chi2, k=10).fit(data, target)
+
+	for i, v in enumerate(select_feature.scores_):
+
+		print("i: ", i, 'Score list:', v)
+	
+	#print('Feature list:', npdata.columns)
+
+	x_train_2 = select_feature.transform(x_train)
+	x_test_2 = select_feature.transform(x_test)
+	clf_rf_2 = GradientBoostingClassifier(n_estimators=150, learning_rate=0.5, max_depth=1, random_state=0)
+	clr_rf_2 = clf_rf_2.fit(x_train_2,y_train)
+	ac_2 = accuracy_score(y_test,clf_rf_2.predict(x_test_2))
+	print('Accuracy is: ',ac_2)
+
+	tn, fp, fn, tp = confusion_matrix(y_test, clf_rf_2.predict(x_test_2)).ravel()
+
+	print("tn: ", tn, "fp: ", fp, "fn: ", fn, "tp: ", tp)
+
+	cm_2 = confusion_matrix(y_test,clf_rf_2.predict(x_test_2))
+	sns.heatmap(cm_2,annot=True,fmt="d", cmap="Blues")
+	plt.show()
 
 	#data = np.concatenate((data[:i], data[i+10:]), axis = 0)
 
@@ -52,7 +78,7 @@ def gradient_booster(data, target):
 
 	#for i in range(150, 400, 50):
 
-	x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.1, random_state=0)
+	x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=0)
 	#normalization
 	x_train_N = (x_train-x_train.mean())/(x_train.max()-x_train.min())
 	x_test_N = (x_test-x_test.mean())/(x_test.max()-x_test.min())
@@ -74,12 +100,11 @@ def gradient_booster(data, target):
 
 	print("tn: ", tn, "fp: ", fp, "fn: ", fn, "tp: ", tp)
 
-	ac = accuracy_score(y_test,clf_rf.predict(x_test))
-	print('Accuracy is: ',ac)
-	cm = confusion_matrix(y_test,clf_rf.predict(x_test))
-	sns.heatmap(cm,annot=True,fmt="d")
+	#ac = accuracy_score(y_test,clf_rf.predict(x_test))
+	#print('Accuracy is: ',ac)
+	#cm = confusion_matrix(y_test,clf_rf.predict(x_test))
+	#sns.heatmap(cm,annot=True,fmt="d")
 
-	plt.show()
 	model= GradientBoostingClassifier(n_estimators=150, learning_rate=0.5, max_depth=1, random_state=0)
 	model.fit(data, target)
 	train_error = model.score(data, target)
@@ -104,11 +129,30 @@ def gradient_booster(data, target):
 	#Predict Output
 	#predicted= model.predict(x_test)
 
-def kbestfeatures():
+def kbestfeatures(npdata, target):
 
-	select_feature = SelectKBest(chi2, k=5).fit(x_train, y_train)
-	print('Score list:', select_feature.scores_)
-	print('Feature list:', x_train.columns)
+	data = npdata[:,2:]
+	data[:,-1] = 1
+	data = data.astype(float)
+
+	x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=42)
+	select_feature = SelectKBest(chi2, k=10).fit(data, target)
+
+	for i, v in enumerate(select_feature.scores_):
+
+		print("i: ", i, 'Score list:', v)
+	
+	#print('Feature list:', npdata.columns)
+
+	x_train_2 = select_feature.transform(x_train)
+	x_test_2 = select_feature.transform(x_test)
+	clf_rf_2 = RandomForestClassifier()      
+	clr_rf_2 = clf_rf_2.fit(x_train_2,y_train)
+	ac_2 = accuracy_score(y_test,clf_rf_2.predict(x_test_2))
+	print('Accuracy is: ',ac_2)
+	cm_2 = confusion_matrix(y_test,clf_rf_2.predict(x_test_2))
+	sns.heatmap(cm_2,annot=True,fmt="d")
+	plt.show()
 
 def recfeatureelimination(data, target):
 
