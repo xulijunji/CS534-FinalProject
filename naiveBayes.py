@@ -17,8 +17,8 @@ def naiveBayes(data, target):
 	data[:,-1] = 1
 	data = data.astype(float)
 
-	#gnb = GaussianNB()
-	gnb = MultinomialNB(alpha = 1)
+	gnb = GaussianNB()
+	#gnb = MultinomialNB(alpha = 1)
 	#gnb = BernoulliNB()
 	gnb.fit(data, target)
 
@@ -27,5 +27,5 @@ def naiveBayes(data, target):
 
 	scores = cross_val_score(gnb, data, target, cv=10)
     	#devArr.append(100-scores.mean())
-	print("Accuracy: %0.2f (+/- %0.2f) for n_estimators " % (scores.mean(), scores.std() * 2))	
+	print("10 fold Cross validation Accuracy: %0.2f (+/- %0.2f) for n_estimators " % (scores.mean(), scores.std() * 2))	
 
