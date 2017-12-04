@@ -44,6 +44,8 @@ if __name__ == "__main__":
     algorithm = int(input("Select what you want to do with the dataset > "))
 
     if algorithm == 0:
+        # Run on Python 3
+        
         data.drop("Unnamed: 32",axis=1,inplace=True)
         df = data
         df.drop("id",axis=1,inplace=True)
@@ -72,6 +74,7 @@ if __name__ == "__main__":
         
         
     if algorithm == 1:
+        # Run on Python 3
 
         train_file = "data.csv"
         cArr = []
@@ -124,5 +127,6 @@ if __name__ == "__main__":
 
 
     if algorithm == 2:
+        # Run on Python 2
 
         model, prediction = logisticRegression(npData, newTarget)
