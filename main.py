@@ -124,15 +124,19 @@ if __name__ == "__main__":
 
 
     if algorithm == 2:
+        # Run on Python 3
        knn_fit(npData, newTarget)
 
     if algorithm == 3:
+        # Run on Python 3
        m = gradient_booster(npData, newTarget)
 
     if algorithm == 4:
+        # Run on Python 3
        gnb = naiveBayes(npData, newTarget)
 
     if algorithm == 5:
+        # Run on Python 3
        kbest = kbestfeatures(npData, newTarget)
 
     if algorithm == 6:
