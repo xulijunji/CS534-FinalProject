@@ -18,6 +18,7 @@ from gradientbooster import gradient_booster
 from naiveBayes import naiveBayes
 from gradientbooster import recfeatureelimination
 from gradientbooster import kbestfeatures
+import seaborn as sns
 datafile = "data.csv"
 
 if __name__ == "__main__":
@@ -50,9 +51,36 @@ if __name__ == "__main__":
 									 "6. Logistic Regression"))
 
     if algorithm == 0:
-        pca = da.principalComponentAnalysis(npData, newTarget)
+        # Run on Python 3
+        
+        data.drop("Unnamed: 32",axis=1,inplace=True)
+        df = data
+        df.drop("id",axis=1,inplace=True)
+        features = list(data.columns[21:31])
+        corr = df[features].corr() # .corr is used for find corelation
+        plt.figure(figsize=(14,14))
+        sns.heatmap(corr, cbar = True,  square = True, annot=True, fmt= '.2f',annot_kws={'size': 15},
+               xticklabels= features, yticklabels= features,
+               cmap= 'coolwarm')
+        
+        npData = data.values
+
+        target = npData[:, 0]
+        newTarget = []
+
+        for i, v in enumerate(target, 0):
+
+            if v == 'M':
+                y = 1
+
+            else:
+                y = 0
+
+            newTarget.append(y)
+        pca = principalComponentAnalysis(npData, newTarget)
         
     if algorithm == 1:
+        # Run on Python 3
 
         train_file = "data.csv"
         cArr = []
@@ -96,6 +124,7 @@ if __name__ == "__main__":
 
 
     if algorithm == 2:
+<<<<<<< HEAD
        knn_fit(npData, newTarget)
 
     if algorithm == 3:
@@ -108,5 +137,8 @@ if __name__ == "__main__":
        kbest = kbestfeatures(npData, newTarget)
 
     if algorithm == 6:
+=======
+        # Run on Python 2
+>>>>>>> 1163723870fab2cd2d65d626e547604686d82f5e
 
         model, prediction = logisticRegression(npData, newTarget)
