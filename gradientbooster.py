@@ -39,7 +39,7 @@ def gradient_booster(data, target):
 	clf_rf_2 = GradientBoostingClassifier(n_estimators=150, learning_rate=0.5, max_depth=1, random_state=0)
 	clr_rf_2 = clf_rf_2.fit(x_train_2,y_train)
 	ac_2 = accuracy_score(y_test,clf_rf_2.predict(x_test_2))
-	print('Accuracy is: ',ac_2)
+	print('Accuracy for 20% test data with top 10 features is: ',ac_2)
 
 	tn, fp, fn, tp = confusion_matrix(y_test, clf_rf_2.predict(x_test_2)).ravel()
 
@@ -72,7 +72,7 @@ def gradient_booster(data, target):
 	#print("train_Error: ", train_error)
 	scores = cross_val_score(model, data[:, 0:5], target, cv=10)
     	#devArr.append(100-scores.mean())
-	print("Gradient Booster Accuracy for first 5 features: %0.2f (+/- %0.2f) for n_estimators " % (scores.mean(), scores.std() * 2))	
+	print("Gradient Booster Cross validation Accuracy for first 5 features: %0.2f (+/- %0.2f) for n_estimators " % (scores.mean(), scores.std() * 2))	
 
 	
 
@@ -85,9 +85,9 @@ def gradient_booster(data, target):
 
 	model= GradientBoostingClassifier(n_estimators=150, learning_rate=0.5, max_depth=1, random_state=0)
 	model.fit(x_train_N, y_train)
-	test_error = model.score(x_test_N, y_test)
-	print("test_Error: ", (1-test_error)*100)
-	print("test score: ", test_error)
+	test_score = model.score(x_test_N, y_test)
+	#print("test_Error: ", (1-test_error)*100)
+	print("test score for raw features with 20% test data: ", test_score)
 	#model.score()
 
 	y_pred = model.predict(x_test_N)
@@ -111,20 +111,20 @@ def gradient_booster(data, target):
 	print("train_Error: ", train_error)
 	scores = cross_val_score(model, data, target, cv=10)
     	#devArr.append(100-scores.mean())
-	print("Gradient Booster Accuracy: %0.2f (+/- %0.2f) for n_estimators " % (scores.mean(), scores.std() * 2))	
+	print("Gradient Booster Accuracy for cross validation with 10 fold: %0.2f (+/- %0.2f) for n_estimators " % (scores.mean(), scores.std() * 2))	
 
-	modelgnb = GradientBoostingClassifier(n_estimators=200, learning_rate=0.5, max_depth=1, random_state=0)
-	modelgnb.fit(data[:501], target[:501])
+	#modelgnb = GradientBoostingClassifier(n_estimators=200, learning_rate=0.5, max_depth=1, random_state=0)
+	#modelgnb.fit(data[:501], target[:501])
 
-	y_pred = modelgnb.predict(data[501:])
+	#y_pred = modelgnb.predict(data[501:])
 
-	cm = confusion_matrix(target[501:], y_pred) 
+	#cm = confusion_matrix(target[501:], y_pred) 
 
-	print("confusion matrix: ", cm)
+	#print("confusion matrix: ", cm)
 
-	tn, fp, fn, tp = confusion_matrix(target[501:], y_pred).ravel()
+	#tn, fp, fn, tp = confusion_matrix(target[501:], y_pred).ravel()
 
-	print("tn: ", tn, "fp: ", fp, "fn: ", fn, "tp: ", tp)
+	#print("tn: ", tn, "fp: ", fp, "fn: ", fn, "tp: ", tp)
 	
 	#Predict Output
 	#predicted= model.predict(x_test)
@@ -151,8 +151,8 @@ def kbestfeatures(npdata, target):
 	ac_2 = accuracy_score(y_test,clf_rf_2.predict(x_test_2))
 	print('Accuracy is: ',ac_2)
 	cm_2 = confusion_matrix(y_test,clf_rf_2.predict(x_test_2))
-	sns.heatmap(cm_2,annot=True,fmt="d")
-	plt.show()
+	#sns.heatmap(cm_2,annot=True,fmt="d")
+	#plt.show()
 
 def recfeatureelimination(data, target):
 
