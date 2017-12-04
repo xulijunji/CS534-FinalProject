@@ -40,26 +40,23 @@ if __name__ == "__main__":
         newTarget.append(y)
     
 
-    algorithm = int(input("Select what you want to do with the dataset > "))
+    algorithm = int(input("Select what you want to do with the dataset >  \n"
+									 "0. Principle Component Analysis \n"
+									 "1. SVM \n"
+									 "2. KNN \n"
+									 "3. Gradient Boosting Classifier \n"
+									 "4. Naive Bayes \n"
+									 "5. Selecting K best Features \n"
+									 "6. Logistic Regression"))
 
     if algorithm == 0:
         pca = da.principalComponentAnalysis(npData, newTarget)
-        
         
     if algorithm == 1:
 
         train_file = "data.csv"
         cArr = []
         supportVectors = []
-
-        #	knn_fit(npData, newTarget)
-
-	#clf = SVM_rbf(npData, newTarget)
-        m = gradient_booster(npData, newTarget)
-
-        kbest = kbestfeatures(npData, newTarget)
-
-        #gnb = naiveBayes(npData, newTarget)
         #re = recfeatureelimination(npData, newTarget)
 
         while(1):
@@ -99,5 +96,17 @@ if __name__ == "__main__":
 
 
     if algorithm == 2:
+       knn_fit(npData, newTarget)
+
+    if algorithm == 3:
+       m = gradient_booster(npData, newTarget)
+
+    if algorithm == 4:
+       gnb = naiveBayes(npData, newTarget)
+
+    if algorithm == 5:
+       kbest = kbestfeatures(npData, newTarget)
+
+    if algorithm == 6:
 
         model, prediction = logisticRegression(npData, newTarget)
