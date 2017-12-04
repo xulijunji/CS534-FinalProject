@@ -11,6 +11,7 @@ from svmTrainer import SVM_fit1
 from svmTrainer import SVM_fit10
 from svmTrainer import SVM_quadratic
 from logisticTrainer import logisticRegression
+from pca import principalComponentAnalysis
 import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score
 from gradientbooster import gradient_booster
@@ -42,8 +43,8 @@ if __name__ == "__main__":
     algorithm = int(input("Select what you want to do with the dataset > "))
 
     if algorithm == 0:
-        print(0)
-        #insert your algorithm here and pass data as argument
+        pca = da.principalComponentAnalysis(npData, newTarget)
+        
         
     if algorithm == 1:
 
