@@ -16,7 +16,7 @@ from sklearn.model_selection import cross_val_score
 from gradientbooster import gradient_booster
 from naiveBayes import naiveBayes
 from gradientbooster import recfeatureelimination
-
+from gradientbooster import kbestfeatures
 datafile = "data.csv"
 
 if __name__ == "__main__":
@@ -54,7 +54,9 @@ if __name__ == "__main__":
         #	knn_fit(npData, newTarget)
 
 	#clf = SVM_rbf(npData, newTarget)
-	m = gradient_booster(npData, newTarget)
+        m = gradient_booster(npData, newTarget)
+
+        #kbest = kbestfeatures(npData, newTarget)
 
 	#gnb = naiveBayes(npData, newTarget)
 	#re = recfeatureelimination(npData, newTarget)
