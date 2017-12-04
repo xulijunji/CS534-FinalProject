@@ -220,10 +220,10 @@ def SVM_fit(data, target, c = 1, _kernel='linear', _degree=1, _coef0=0):
         print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))	
         #print("Dev Error rate:", devArr[i])
 
-        weightVector = clf.coef_
-        max_index = weightVector.argsort()[-3:][::-1]
+        #weightVector = clf.coef_
+        #max_index = weightVector.argsort()[-3:][::-1]
 
-        print("max weights: ", max_index)
+        #print("max weights: ", max_index)
         #print()
 
     #print("predicted: ", clf.predict(data))
